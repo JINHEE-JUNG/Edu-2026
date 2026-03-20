@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English 1 Study Guide - All Lessons</title>
+    <title>High School English 1 - Study Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -148,11 +148,12 @@
                     <i data-lucide="x" size="24" class="text-slate-500"></i>
                 </button>
             </div>
-            <div class="p-2 sm:p-6 flex justify-center bg-slate-100 min-h-[300px] items-center">
+            <div class="p-2 sm:p-6 flex justify-center bg-slate-100 min-h-[400px] items-center">
                 <img id="modal-img" src="" alt="Infographic" class="max-h-[75vh] object-contain rounded-xl shadow-inner border border-slate-200" onerror="handleImageError(this)">
                 <div id="image-error-msg" class="hidden flex-col items-center text-slate-400">
                     <i data-lucide="image-off" size="48" class="mb-2"></i>
-                    <p>이미지를 불러올 수 없습니다.</p>
+                    <p class="font-bold">이미지를 불러올 수 없습니다.</p>
+                    <p class="text-xs mt-1">실제 파일명(unnamed.jpg)이 맞는지 확인해 주세요.</p>
                 </div>
             </div>
         </div>
@@ -169,6 +170,7 @@
         let currentLesson = 1;
 
         // --- Data ---
+        // 파일 업로드 정보를 확인한 결과 실제 파일명은 unnamed.jpg입니다.
         const lessonsData = {
             1: {
                 title: "Don't Let Anger Be Your Boss",
@@ -188,7 +190,7 @@
                     { msg: "\"Anger is a feeling, but behavior is a choice.\"", detail: "감정은 자연스럽지만, 행동은 우리의 선택입니다." },
                     { msg: "The Root of Anger", detail: "뇌의 발달 과정과 호르몬이 감정 변화에 영향을 줍니다." }
                 ],
-                infographic: "unnamed.jpg" // 업로드된 파일명이 .jpg임에 유의
+                infographic: "unnamed.jpg" // 실제 업로드된 파일명으로 수정
             },
             2: { title: "Lesson 2: Coming Soon", vocabulary: [], grammar: [], content: [] },
             3: { title: "Lesson 3: Coming Soon", vocabulary: [], grammar: [], content: [] },
@@ -239,7 +241,7 @@
             const vGrid = document.getElementById('vocabulary-grid');
             vGrid.innerHTML = '';
             if (data.vocabulary.length === 0) {
-                vGrid.innerHTML = '<p class="text-slate-400 col-span-full italic">이 레슨의 어휘 데이터는 아직 준비되지 않았습니다.</p>';
+                vGrid.innerHTML = '<p class="text-slate-400 col-span-full italic text-center py-10">데이터를 준비 중입니다.</p>';
             } else {
                 data.vocabulary.forEach(word => {
                     const card = document.createElement('div');
@@ -259,7 +261,7 @@
             const gList = document.getElementById('grammar-list');
             gList.innerHTML = '';
             if (data.grammar.length === 0) {
-                gList.innerHTML = '<p class="text-slate-400 italic">이 레슨의 문법 데이터는 아직 준비되지 않았습니다.</p>';
+                gList.innerHTML = '<p class="text-slate-400 italic">데이터 준비 중...</p>';
             } else {
                 data.grammar.forEach((point, idx) => {
                     const div = document.createElement('div');
@@ -279,7 +281,7 @@
             const cList = document.getElementById('content-list');
             cList.innerHTML = '';
             if (data.content.length === 0) {
-                cList.innerHTML = '<p class="text-slate-400 italic">이 레슨의 본문 데이터는 아직 준비되지 않았습니다.</p>';
+                cList.innerHTML = '<p class="text-slate-400 italic">데이터 준비 중...</p>';
             } else {
                 data.content.forEach(item => {
                     const div = document.createElement('div');
@@ -308,7 +310,7 @@
             lucide.createIcons();
         }
 
-        // --- Navigation Logic ---
+        // --- Navigation ---
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -339,7 +341,7 @@
 
         function openModal() {
             const data = lessonsData[currentLesson];
-            if (!data.infographic) return;
+            if (!data || !data.infographic) return;
 
             const modal = document.getElementById('infographic-modal');
             const modalImg = document.getElementById('modal-img');
@@ -347,7 +349,6 @@
             
             document.getElementById('modal-title').innerText = `Infographic: Lesson ${currentLesson}`;
             
-            // 초기화
             modalImg.classList.remove('hidden');
             errorMsg.classList.add('hidden');
             modalImg.src = data.infographic;
@@ -369,7 +370,7 @@
         function handleImageError(img) {
             img.classList.add('hidden');
             document.getElementById('image-error-msg').classList.remove('hidden');
-            console.error("Image load failed:", img.src);
+            console.error("Image load failed for:", img.src);
         }
 
         // --- Init ---
