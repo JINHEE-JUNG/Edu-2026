@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영어1 수업 랜딩페이지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // Tailwind dark mode configuration
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        .card-hover:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .word-card { perspective: 1000px; cursor: pointer; height: 200px; }
+        .word-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .word-card.flipped .word-card-inner { transform: rotateY(180deg); }
+        .word-card-front, .word-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .word-card-back { transform: rotateY(180deg); background-color: #3b82f6; color: white; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-blue-600 dark:text-blue-400 cursor-pointer" onclick="showTab('home')">
+                        <i class="fas fa-graduation-cap mr-2"></i>English 1 Class
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4 md:space-x-8">
+                    <div class="hidden md:flex items-center space-x-6">
+                        <button onclick="showTab('home')" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">홈</button>
+                        <button onclick="showTab('textbook')" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">교과서 본문</button>
+                        <button onclick="showTab('csat')" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">수능특강 분석</button>
+                        <button onclick="showTab('vocab')" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">영어단어 학습</button>
+                    </div>
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                        <i id="theme-toggle-icon" class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Tab: Home -->
+        <div id="home" class="tab-content active text-center py-12">
+            <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">반갑습니다! 오늘 함께 공부할 내용은 무엇인가요?</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">영어1 수업의 모든 자료를 한곳에서 확인하세요.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div onclick="showTab('textbook')" class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg card-hover cursor-pointer border-t-4 border-blue-500">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-book-open text-2xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">교과서 본문</h3>
+                    <p class="text-gray-500 dark:text-gray-400">단원별 본문 텍스트와 구문 분석 자료를 확인합니다.</p>
+                </div>
+                <!-- Card 2 -->
+                <div onclick="showTab('csat')" class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg card-hover cursor-pointer border-t-4 border-orange-500">
+                    <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-file-alt text-2xl text-orange-600 dark:text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">수능특강 분석</h3>
+                    <p class="text-gray-500 dark:text-gray-400">EBS 수능특강 핵심 지문과 변형 포인트를 짚어봅니다.</p>
+                </div>
+                <!-- Card 3 -->
+                <div onclick="showTab('vocab')" class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg card-hover cursor-pointer border-t-4 border-green-500">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-spell-check text-2xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">영어단어 학습</h3>
+                    <p class="text-gray-500 dark:text-gray-400">오늘의 필수 영단어를 퀴즈와 카드로 복습합니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Textbook -->
+        <div id="textbook" class="tab-content">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h2 class="text-3xl font-bold">교과서 본문 분석</h2>
+                <div class="flex items-center gap-4">
+                    <span class="text-gray-600 dark:text-gray-400 font-medium">단원 선택:</span>
+                    <select class="bg-white dark:bg-gray-800 border-2 border-blue-100 dark:border-gray-700 rounded-lg px-4 py-2 focus:border-blue-500 dark:focus:border-blue-400 outline-none transition text-gray-900 dark:text-gray-100" onchange="loadLesson(this.value)">
+                        <option value="01">Lesson 1: Dream Big</option>
+                        <option value="02">Lesson 2: Food for the Soul</option>
+                        <option value="03">Lesson 3: Art around Us</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 p-12 rounded-2xl shadow-sm border dark:border-gray-700 flex flex-col items-center justify-center min-h-[300px] text-center">
+                <div class="mb-6">
+                    <i class="fas fa-file-pdf text-6xl text-red-100 dark:text-red-900/30"></i>
+                </div>
+                <h3 id="lesson-title" class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Lesson 1: Dream Big</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-8">해당 단원의 전체 본문과 상세 분석 내용을 확인하시려면 아래 버튼을 클릭하세요.</p>
+                
+                <a id="textbook-link" href="./01/index.html" class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-lg font-bold rounded-xl shadow-lg transition-all transform hover:scale-105 active:scale-95">
+                    <i class="fas fa-external-link-alt mr-3"></i>
+                    교과서 본문 전체보기
+                </a>
+            </div>
+        </div>
+
+        <!-- Tab: CSAT -->
+        <div id="csat" class="tab-content">
+            <h2 class="text-3xl font-bold mb-8">수능특강 핵심 지문 분석</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-orange-200 dark:border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm mr-3">Unit 01 - 03번</span>
+                        <h4 class="font-bold text-lg">지문 주제: 정보화 사회의 명암</h4>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg mb-4 italic text-gray-700 dark:text-gray-300">
+                        "The rapid development of digital technology has reshaped the way we interact with information, yet it poses significant risks to privacy."
+                    </div>
+                    <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                        <li class="flex items-start"><i class="fas fa-check-circle text-orange-500 mt-1 mr-2"></i> <span><strong>주제:</strong> 디지털 기술 발전이 정보 상호작용 방식은 바꿨지만 프라이버시 위험을 초래함</span></li>
+                        <li class="flex items-start"><i class="fas fa-check-circle text-orange-500 mt-1 mr-2"></i> <span><strong>문법 포인트:</strong> Reshaped (현재완료), Yet (접속사)</span></li>
+                        <li class="flex items-start"><i class="fas fa-exclamation-triangle text-red-500 mt-1 mr-2"></i> <span><strong>변형 예측:</strong> 빈칸 추론 (위험성 강조 부분)</span></li>
+                    </ul>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-orange-200 dark:border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm mr-3">Unit 01 - 05번</span>
+                        <h4 class="font-bold text-lg">지문 주제: 소비자 심리와 마케팅</h4>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg mb-4 italic text-gray-700 dark:text-gray-300">
+                        "Psychological anchors often dictate our perception of value, making us prone to overspending on seemingly discounted items."
+                    </div>
+                    <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                        <li class="flex items-start"><i class="fas fa-check-circle text-orange-500 mt-1 mr-2"></i> <span><strong>주제:</strong> 심리적 닻이 가치 인식을 좌우하여 과소비를 유도함</span></li>
+                        <li class="flex items-start"><i class="fas fa-check-circle text-orange-500 mt-1 mr-2"></i> <span><strong>문법 포인트:</strong> Making (분사구문), Dictate (동사)</span></li>
+                        <li class="flex items-start"><i class="fas fa-exclamation-triangle text-red-500 mt-1 mr-2"></i> <span><strong>변형 예측:</strong> 어휘 추론 (prone, dictate)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Vocab -->
+        <div id="vocab" class="tab-content">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-2">오늘의 필수 단어</h2>
+                <p class="text-gray-600 dark:text-gray-400">카드를 클릭하여 뜻을 확인해 보세요!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="word-card" onclick="this.classList.toggle('flipped')">
+                    <div class="word-card-inner">
+                        <div class="word-card-front bg-white dark:bg-gray-800 text-gray-900 dark:text-white"><span class="text-2xl font-bold">Persuade</span></div>
+                        <div class="word-card-back"><span class="text-xl">설득하다</span></div>
+                    </div>
+                </div>
+                <div class="word-card" onclick="this.classList.toggle('flipped')">
+                    <div class="word-card-inner">
+                        <div class="word-card-front bg-white dark:bg-gray-800 text-gray-900 dark:text-white"><span class="text-2xl font-bold">Relevant</span></div>
+                        <div class="word-card-back"><span class="text-xl">관련된, 적절한</span></div>
+                    </div>
+                </div>
+                <div class="word-card" onclick="this.classList.toggle('flipped')">
+                    <div class="word-card-inner">
+                        <div class="word-card-front bg-white dark:bg-gray-800 text-gray-900 dark:text-white"><span class="text-2xl font-bold">Enormous</span></div>
+                        <div class="word-card-back"><span class="text-xl">거대한, 막대한</span></div>
+                    </div>
+                </div>
+                <div class="word-card" onclick="this.classList.toggle('flipped')">
+                    <div class="word-card-inner">
+                        <div class="word-card-front bg-white dark:bg-gray-800 text-gray-900 dark:text-white"><span class="text-2xl font-bold">Implement</span></div>
+                        <div class="word-card-back"><span class="text-xl">시행하다, 도구</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 dark:bg-gray-800 rounded-xl border dark:border-gray-700">
+                <h3 class="font-bold text-xl mb-4 text-gray-900 dark:text-white"><i class="fas fa-tasks mr-2 text-blue-600 dark:text-blue-400"></i>간이 단어 시험</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-lg shadow-sm">
+                        <span class="w-32 font-medium dark:text-gray-100">1. Consistent</span>
+                        <input type="text" placeholder="뜻을 입력하세요" class="bg-transparent border-b-2 border-gray-200 dark:border-gray-500 outline-none focus:border-blue-500 dark:focus:border-blue-400 flex-1 ml-4 px-2 py-1 dark:text-white">
+                    </div>
+                    <div class="flex items-center bg-white dark:bg-gray-700 p-4 rounded-lg shadow-sm">
+                        <span class="w-32 font-medium dark:text-gray-100">2. Fundamental</span>
+                        <input type="text" placeholder="뜻을 입력하세요" class="bg-transparent border-b-2 border-gray-200 dark:border-gray-500 outline-none focus:border-blue-500 dark:focus:border-blue-400 flex-1 ml-4 px-2 py-1 dark:text-white">
+                    </div>
+                </div>
+                <button class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition font-bold shadow-lg" onclick="checkAnswers()">정답 확인</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-800 dark:bg-black text-white py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-400 mb-4">&copy; 2025 English 1 Class - 선생님의 열정을 응원합니다.</p>
+            <div class="flex justify-center space-x-6">
+                <i class="fab fa-youtube text-2xl hover:text-red-500 cursor-pointer"></i>
+                <i class="fas fa-envelope text-2xl hover:text-blue-400 cursor-pointer"></i>
+                <i class="fas fa-link text-2xl hover:text-green-400 cursor-pointer"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleIcon = document.getElementById('theme-toggle-icon');
+        const html = document.documentElement;
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeToggleIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeToggleIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                themeToggleIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Tab switching logic
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // Lesson loading logic
+        function loadLesson(val) {
+            const linkElement = document.getElementById('textbook-link');
+            const titleElement = document.getElementById('lesson-title');
+            linkElement.setAttribute('href', `./${val}/index.html`);
+            const lessonNames = {
+                "01": "Lesson 1: Dream Big",
+                "02": "Lesson 2: Food for the Soul",
+                "03": "Lesson 3: Art around Us"
+            };
+            titleElement.innerText = lessonNames[val];
+        }
+
+        function checkAnswers() {
+            const message = document.createElement('div');
+            message.className = "fixed bottom-10 right-10 bg-green-500 text-white px-8 py-4 rounded-xl shadow-2xl z-50 animate-bounce";
+            message.innerText = "잘했습니다! 1번: 일관된, 2번: 근본적인 입니다.";
+            document.body.appendChild(message);
+            setTimeout(() => message.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
